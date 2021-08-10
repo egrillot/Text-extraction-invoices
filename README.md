@@ -7,7 +7,7 @@ The code also performs well for a poor quality invoice by using an upscaling mod
 Installation
 ----
 
-The easiest way to install is using the following command line : must 
+The easiest way to install is using the following command line : 
 ~~~ 
 !python3 -m pip install --ignore-installed -r requirements.txt 
 ~~~
