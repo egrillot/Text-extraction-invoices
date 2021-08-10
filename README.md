@@ -34,7 +34,8 @@ Example
 
 Let's work with the following invoice :
 
-![scale=0.5](image/sample-auto-insurance-declarations-page_2_2x.jpg)
+<img src="image/sample-auto-insurance-declarations-page_2_2x.jpg" width="200" height="400" />
+![](image/sample-auto-insurance-declarations-page_2_2x.jpg)
 
 The output is as follows :
 
