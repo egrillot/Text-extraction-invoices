@@ -11,3 +11,12 @@ The easiest way to install is using the following command line :
 ~~~ 
 python3 -m pip install --ignore-installed -r requirements.txt 
 ~~~
+
+Usage
+----
+
+Three inputs must be given :
+
+*file_path 
+*dir_result
+*models_path
