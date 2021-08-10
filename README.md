@@ -34,7 +34,7 @@ Example
 
 Let's work with the following invoice :
 
-![](image/sample-auto-insurance-declarations-page_2_2x.jpg)
+![scale=0.5](image/sample-auto-insurance-declarations-page_2_2x.jpg)
 
 The output is as follows :
 
