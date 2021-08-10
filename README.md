@@ -8,4 +8,4 @@ Installation
 ----
 
 The easiest way to install is using the following command line :
-''' python3 -m pip install --ignore-installed -r requirements.txt '''
+' python3 -m pip install --ignore-installed -r requirements.txt '
