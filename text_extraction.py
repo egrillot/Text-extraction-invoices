@@ -8,6 +8,7 @@ import os
 import cv2
 from openvino.inference_engine import IECore
 import pytesseract
+from time import time
 
 pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
 
@@ -17,6 +18,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--file_path',type=str,dest='fp')
 parser.add_argument('--dir_result',type=str,dest='dr')
 parser.add_argument('--models_path',type=str,dest='mp')
+parser.add_argument('--target_features',type=list,dest='tf')
 args = parser.parse_args()
 
 class Tools:
@@ -24,9 +26,9 @@ class Tools:
     def work_with_image(current_path):
         im_path=current_path
         d=0
-        if args.fp[-3:]=='pdf':
+        if im_path[-3:]=='pdf':
             im=pdf2image.convert_from_path(args.fp)[0]
-            im_path=im_path[-3:]+'jpg'
+            im_path=im_path[:-3]+'jpg'
             im.save(im_path)
             d=1
         else:
@@ -53,6 +55,11 @@ class Tools:
                 f.write(writing)
                 f.write('\n')
             f.close()
+        
+    targetable=['Date','Plate number','Invoice number','Cost type','Distance','Quantity','Net_price','Raw_price']
+
+    def write_target_features(list_target,path):
+        return 1
 
 class Model:
     def __init__(self,task):
@@ -62,16 +69,15 @@ class Model:
         if task=='upscaling box':
             ie = IECore()
             net = ie.read_network(args.mp+'single-image-super-resolution-1032.xml', args.mp+'single-image-super-resolution-1032.bin')
-            exec_net = ie.load_network(network=net, device_name="CPU")
+            exec_net = ie.load_network(network=net, device_name="GPU")
             original_image_key = list(exec_net.input_info)[0]
             bicubic_image_key = list(exec_net.input_info)[1]
             output_key = list(exec_net.outputs.keys())[0]
-            input_height, input_width = tuple(
-            exec_net.input_info[original_image_key].tensor_desc.dims[2:])
+            input_height, input_width = tuple(exec_net.input_info[original_image_key].tensor_desc.dims[2:])
             target_height, target_width = tuple(exec_net.input_info[bicubic_image_key].tensor_desc.dims[2:])
             self.model=original_image_key,bicubic_image_key,output_key,input_height,input_width,target_height,target_width,exec_net
         if task=='detecting text':
-            self.model=easyocr.Reader(['pl'])
+            self.model=easyocr.Reader(['pl','en'])
 
     def pred(self,input): 
         if self.task=='reading text':
@@ -104,12 +110,6 @@ class Box:
     
     def get_text(self):
         return self.text
-
-    def right_distance2(self,box):
-        return (self.x_max-box.x_min)**2+(self.y_min-box.y_min)**2
-    
-    def under_distance2(self,box):
-        return (self.x_min-box.x_min)**2+(self.y_max-box.y_min)**2
     
     def equal(self,box):
         return self.x_min==box.x_min and self.x_max==box.x_max and self.y_min==box.y_min and self.y_max==box.y_max
@@ -117,9 +117,8 @@ class Box:
     def set_text(self,txt):
         self.text=txt
     
-    def upscale(self):
-        upscaler=Model('upscaling box')
-        self.im=upscaler.pred(self.im)
+    def set_im(self,im):
+        self.im=im
 
     def get_im(self):
         return self.im
@@ -139,6 +138,12 @@ class Boxes:
         if not self.is_already_in(box):
             self.boxes_list.append(box)
             self.size+=1
+    
+    def upscale(self):
+        upscaler=Model('upscaling box')
+        for i in range(self.size):
+            im_upscaled=upscaler.pred(self.boxes_list[i].im)
+            self.boxes_list[i].set_im(im_upscaled)
     
     def set_texts(self):
         reader=Model('reading text')
@@ -166,8 +171,7 @@ class Image:
             self.boxes.add_box(Box(x_min,x_max,y_min,y_max,self.im))
     
     def upscale_boxes(self):
-        for i in range(self.boxes.size):
-            self.boxes.boxes_list[i].upscale()
+        self.boxes.upscale()
     
     def get_features(self):
         return np.array(self.boxes.get_boxes_and_text(),dtype=object)
@@ -182,6 +186,8 @@ class Image:
 
 if __name__ == '__main__':
 
+    t=time()
+
     im,im_path,d=Tools.work_with_image(args.fp)
     im=Image(im,im_path)
 
@@ -189,8 +195,13 @@ if __name__ == '__main__':
 
     result=im.get_features()
 
-    Tools.write_all(result,args.dr+'results.txt')
+    Tools.write_all(result,args.dr+'Extracted_text.txt')
+
+    if args.tf!=None:
+        Tools.write_target_features(args.tf,args.dr+'Target_text.txt')
             
     if d==1:
         os.remove(im_path)
+    
+    print(time()-t)
     
