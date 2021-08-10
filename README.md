@@ -73,7 +73,7 @@ The output is as follows :
 #### 1062,1128,938,968 : $0.88
 #### 41,303,1001,1040 : Policy Premium and Fees
 #### 1038,1128,1006,1036 : $798.48
-#### 42,230,1086,1134 : Discounts
+^42,230,1086,1134 : Discounts ^
 #### 44,196,1162,1194 : Discount Type
 #### 294,510,1162,1194 : Applies to Vehicle(s)
 #### 654,806,1162,1194 : Discount Type
