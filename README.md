@@ -34,7 +34,7 @@ Let's work with the following invoice :
 
 The output is as follows :
 
-### 36,259,60,121 : Policygenius
+###### 36,259,60,121 : Policygenius
 
 #### 868,1156,78,110 : Policy Number 12345-67-89
 #### 44,212,232,264 : CONTINUED
