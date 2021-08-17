@@ -1,19 +1,16 @@
-Text-extraction-invoices
-=====================
+# Text-extraction-invoices
 
 The objective is to be able to extract the text from an invoice in english or in polish while maintaining its structure. 
 The code also performs well for a poor quality invoice by using an upscaling model developed [here](https://github.com/openvinotoolkit/openvino_notebooks/tree/main/notebooks/202-vision-superresolution).
 
-Installation
-----
+## Installation
 
 The easiest way to install is using the following command line : 
 ~~~ 
 !python3 -m pip install --ignore-installed -r requirements.txt 
 ~~~
 
-Usage
-----
+## Usage
 
 Three inputs must be given :
 
@@ -29,8 +26,7 @@ Then you can use the following command to extract the text from your invoice :
 !python3 text_extraction.py --file_path=your/invoice/path --dir_result==directory/to/save/the/result --models_path==path/to/the/models/folder
 ~~~
 
-Example
-----
+## Example
 
 Let's work with the following invoice :
 
