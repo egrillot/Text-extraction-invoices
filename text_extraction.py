@@ -8,7 +8,6 @@ import os
 import cv2
 from openvino.inference_engine import IECore
 import pytesseract
-from time import time
 
 pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
 
