@@ -39,6 +39,7 @@ Let's work with the following invoice :
 The output is as follows :
 
 #### 36,259,60,121 : Policygenius
+
 #### 868,1156,78,110 : Policy Number 12345-67-89
 #### 44,212,232,264 : CONTINUED
 #### 41,371,263,330 : Declaration Page
@@ -73,7 +74,7 @@ The output is as follows :
 #### 1062,1128,938,968 : $0.88
 #### 41,303,1001,1040 : Policy Premium and Fees
 #### 1038,1128,1006,1036 : $798.48
-^42,230,1086,1134 : Discounts ^
+#### 42,230,1086,1134 : Discounts 
 #### 44,196,1162,1194 : Discount Type
 #### 294,510,1162,1194 : Applies to Vehicle(s)
 #### 654,806,1162,1194 : Discount Type
