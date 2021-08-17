@@ -23,7 +23,7 @@ Three inputs must be given :
 Then you can use the following command to extract the text from your invoice :
 
 ~~~ 
-!python3 text_extraction.py --file_path=your/invoice/path --dir_result==directory/to/save/the/result --models_path==path/to/the/models/folder
+!python3 text_extraction.py --file_path=your/invoice/path --dir_result=directory/to/save/the/result --models_path=path/to/the/models/folder
 ~~~
 
 ## Example
