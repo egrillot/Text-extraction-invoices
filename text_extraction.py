@@ -18,7 +18,6 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--file_path',type=str,dest='fp')
 parser.add_argument('--dir_result',type=str,dest='dr')
 parser.add_argument('--models_path',type=str,dest='mp')
-parser.add_argument('--target_features',type=list,dest='tf')
 args = parser.parse_args()
 
 class Tools:
@@ -27,12 +26,12 @@ class Tools:
         im_path=current_path
         d=0
         if im_path[-3:]=='pdf':
-            im=pdf2image.convert_from_path(args.fp)[0]
+            im=pdf2image.convert_from_path(im_path)[0]
             im_path=im_path[:-3]+'jpg'
             im.save(im_path)
             d=1
         else:
-            im=PIL.Image.open(args.fp)
+            im=PIL.Image.open(im_path)
         return im,im_path,d
 
     def convert_result_to_image(result):
@@ -55,11 +54,6 @@ class Tools:
                 f.write(writing)
                 f.write('\n')
             f.close()
-        
-    targetable=['Date','Plate number','Invoice number','Cost type','Distance','Quantity','Net_price','Raw_price']
-
-    def write_target_features(list_target,path):
-        return 1
 
 class Model:
     def __init__(self,task):
@@ -77,11 +71,11 @@ class Model:
             target_height, target_width = tuple(exec_net.input_info[bicubic_image_key].tensor_desc.dims[2:])
             self.model=original_image_key,bicubic_image_key,output_key,input_height,input_width,target_height,target_width,exec_net
         if task=='detecting text':
-            self.model=easyocr.Reader(['pl','en'])
+            self.model=easyocr.Reader(['en'])
 
     def pred(self,input): 
         if self.task=='reading text':
-            return self.model.image_to_string(input,lang='eng+pol')
+            return self.model.image_to_string(input,lang='eng')
         if self.task=='upscaling box':
             original_image_key,bicubic_image_key,output_key,input_height,input_width,target_height,target_width,exec_net=self.model
             w,h=input.size
@@ -186,8 +180,6 @@ class Image:
 
 if __name__ == '__main__':
 
-    t=time()
-
     im,im_path,d=Tools.work_with_image(args.fp)
     im=Image(im,im_path)
 
@@ -196,12 +188,7 @@ if __name__ == '__main__':
     result=im.get_features()
 
     Tools.write_all(result,args.dr+'Extracted_text.txt')
-
-    if args.tf!=None:
-        Tools.write_target_features(args.tf,args.dr+'Target_text.txt')
             
     if d==1:
         os.remove(im_path)
-    
-    print(time()-t)
-    
+        
