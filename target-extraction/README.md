@@ -32,4 +32,8 @@ Then you can start the training as below :
 !python3 set_up_train.py --data_path=path/to/your/data/generated --model_path=path/to/save/the/LayoutLM/model/trained
 ~~~
 
-Once done, you can use your model to extract your wished features.
+Once done, you can use your model to extract your wished features. You can also check if your model didn't overfitted by testing it on your test data as follows:
+
+~~~
+!python3 eval.py --data_path=path/to/your/data/generated --model_path=path/to/your/saved/model
+~~~
