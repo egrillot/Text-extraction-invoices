@@ -6,8 +6,6 @@ import easyocr
 from PIL import Image
 from layoutlm_preprocess import *
 
-from time import time
-
 parser = argparse.ArgumentParser()
 parser.add_argument('--file_path',type=str,dest='fp')
 parser.add_argument('--dir_result',type=str,dest='dr')
