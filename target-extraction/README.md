@@ -8,7 +8,7 @@ template.
 
 ## Train your LayoutLM model
 
-### Installation & Usage
+### Installation 
 
 First you need to clone 2 gits and install several tools :
 
@@ -26,6 +26,8 @@ and
 ! pip install ./transformers
 ~~~
 
+### Usage
+
 Then you can start the training as below :
 
 ~~~
@@ -37,3 +39,9 @@ Once done, you can use your model to extract your wished features. You can also 
 ~~~
 !python3 eval.py --data_path=path/to/your/data/generated --model_path=path/to/your/saved/model
 ~~~
+
+## Target extraction text
+
+### Installation
+
+### Usage & Example
