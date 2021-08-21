@@ -1,3 +1,4 @@
+import argparse
 from transformers.models.layoutlm import LayoutLMTokenizer
 from layoutlm.data.funsd import FunsdDataset
 from torch.utils.data import DataLoader, SequentialSampler
@@ -12,7 +13,12 @@ from seqeval.metrics import (
     recall_score,
 )
 
-dir_path='Desktop/VivaDrive/faktur_generator_v4/data/'
+parser = argparse.ArgumentParser()
+parser.add_argument('--data_path',type=str,dest='dp')
+parser.add_argument('--model_path',type=str,dest='mp')
+args = parser.parse_args()
+
+dir_path=args.dp
 
 def get_labels(path):
     with open(path, "r") as f:
