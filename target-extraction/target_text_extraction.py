@@ -170,9 +170,7 @@ if __name__ == '__main__':
     im_list, im_path_list=Tools.work_with_image(args.fp)
     invoice=Image(im_list, im_path_list, labels)
 
-    invoice.set_boxes()
-    invoice.set_texts()
-    invoice.get_target_texts(args.mp, args.dr)
+    invoice.text_extraction(args.mp, args.dr)
 
     for path in im_path_list:
         os.remove(path)
