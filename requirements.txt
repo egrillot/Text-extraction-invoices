@@ -1,9 +1,0 @@
-pdf2image
-argparse
-Pillow
-easyocr
-numpy
-opencv-python
-openvino-dev
-pytesseract
-
