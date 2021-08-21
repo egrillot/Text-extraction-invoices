@@ -53,7 +53,7 @@ eval_dataloader = DataLoader(eval_dataset,
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model = LayoutLMForTokenClassification.from_pretrained("microsoft/layoutlm-base-uncased", num_labels=num_labels)
-model.load_state_dict(torch.load(args.mp+'trained_layoutlm.pt', map_location=device))
+model.load_state_dict(torch.load(args.mp, map_location=device))
 model.to(device)
 # put model in evaluation mode
 model=model.eval()
