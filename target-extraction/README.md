@@ -6,9 +6,9 @@ Disposing of invoice templates, you can generate your dataset with the following
 file in the specified directory. This model has been pre-trained on a polish invoices dataset, using the repository quoted, based on 20 templates with 1 000 generated invoices per 
 template.
 
-# Train your LayoutLM model
+## Train your LayoutLM model
 
-## Installation & Usage
+### Installation & Usage
 
 First you need to clone 2 gits and install several tools :
 
@@ -26,3 +26,10 @@ and
 ! pip install ./transformers
 ~~~
 
+Then you can start the training as below :
+
+~~~
+!python3 set_up_train.py --data_path=path/to/your/data/generated --model_path=path/to/save/the/LayoutLM/model/trained
+~~~
+
+Once done, you can use your model to extract your wished features.
