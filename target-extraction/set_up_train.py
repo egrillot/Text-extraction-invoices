@@ -1,6 +1,6 @@
 import argparse
 from transformers.models.layoutlm import LayoutLMTokenizer
-from layoutlm.data.funsd import FunsdDataset, InputFeatures
+from layoutlm.data.funsd import FunsdDataset
 from torch.utils.data import DataLoader, RandomSampler, SequentialSampler
 from torch.nn import CrossEntropyLoss
 from transformers import LayoutLMForTokenClassification
