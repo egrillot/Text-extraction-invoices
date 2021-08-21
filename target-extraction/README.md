@@ -1,8 +1,6 @@
 # Target extraction
 
-In this package, it is possible to train your own extraction features model with the same structure as the [LayoutLM](https://huggingface.co/microsoft/layoutlm-base-uncased) model.
-Disposing of invoice templates, you can generate your dataset with the following [repository](https://github.com/h2o64/faktur_generator). A pre-trained model is available in the 
-**models** directory. You can also use directly the code **target_text_extraction.py** to extract with the pre-trained model the text from an invoice. The result is saved as a json file in the specified directory. This model has been pre-trained on a polish invoices dataset, using the repository quoted, based on 20 templates with 1 000 generated invoices per template.
+In this package, it is possible to train your own extraction features model with the same structure as the [LayoutLM](https://huggingface.co/microsoft/layoutlm-base-uncased) model. Disposing of invoice templates, you can generate your dataset with the following [repository](https://github.com/h2o64/faktur_generator). A pre-trained model is available in the **models** directory. You can also use directly the code **target_text_extraction.py** to extract with the pre-trained model the text from an invoice. The result is saved as a json file in the specified directory. This model has been pre-trained on a polish invoices dataset, using the repository quoted, based on 20 templates with 1 000 generated invoices per template. For more details, please refer to the following [tutorial](https://towardsdatascience.com/fine-tuning-transformer-model-for-invoice-recognition-1e55869336d4).
 
 ## Train your LayoutLM model
 
