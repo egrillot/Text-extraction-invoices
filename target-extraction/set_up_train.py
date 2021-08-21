@@ -1,3 +1,4 @@
+import argparse
 from transformers.models.layoutlm import LayoutLMTokenizer
 from layoutlm.data.funsd import FunsdDataset, InputFeatures
 from torch.utils.data import DataLoader, RandomSampler, SequentialSampler
@@ -7,7 +8,12 @@ import torch
 from tqdm import tqdm
 from transformers import AdamW
 
-dir_path='Desktop/VivaDrive/faktur_generator_v4/data/'
+parser = argparse.ArgumentParser()
+parser.add_argument('--data_path',type=str,dest='dp')
+parser.add_argument('--model_path',type=str,dest='mp')
+args = parser.parse_args()
+
+dir_path=args.dp
 
 def get_labels(path):
     with open(path, "r") as f:
@@ -81,5 +87,5 @@ for epoch in range(num_train_epochs):
       optimizer.zero_grad()
       global_step += 1
 
-PATH='Desktop/VivaDrive/models/trained_layoutlm.pt'
+PATH=args.mp+'trained_layoutlm.pt'
 torch.save(model.state_dict(), PATH)
