@@ -45,11 +45,7 @@ train_sampler = RandomSampler(train_dataset)
 train_dataloader = DataLoader(train_dataset,
                               sampler=train_sampler,
                               batch_size=2)
-eval_dataset = FunsdDataset(args, tokenizer, labels, pad_token_label_id, mode="test")
-eval_sampler = SequentialSampler(eval_dataset)
-eval_dataloader = DataLoader(eval_dataset,
-                             sampler=eval_sampler,
-                            batch_size=2)
+
 batch = next(iter(train_dataloader))
 input_ids = batch[0][0]
 tokenizer.decode(input_ids)
@@ -60,7 +56,7 @@ model.to(device)
 
 optimizer = AdamW(model.parameters(), lr=5e-5)
 global_step = 0
-num_train_epochs = 1
+num_train_epochs = 50
 t_total = len(train_dataloader) * num_train_epochs # total number of training steps
 #put the model in training mode
 model.train()
@@ -80,8 +76,6 @@ for epoch in range(num_train_epochs):
         print(f"Loss after {global_step} steps: {loss.item()}")
 # backward pass to get the gradients 
       loss.backward()
-#print("Gradients on classification head:")
-      #print(model.classifier.weight.grad[6,:].sum())
 # update
       optimizer.step()
       optimizer.zero_grad()
