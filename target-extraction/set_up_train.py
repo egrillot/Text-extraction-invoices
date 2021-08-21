@@ -45,11 +45,6 @@ train_sampler = RandomSampler(train_dataset)
 train_dataloader = DataLoader(train_dataset,
                               sampler=train_sampler,
                               batch_size=2)
-eval_dataset = FunsdDataset(args, tokenizer, labels, pad_token_label_id, mode="test")
-eval_sampler = SequentialSampler(eval_dataset)
-eval_dataloader = DataLoader(eval_dataset,
-                             sampler=eval_sampler,
-                            batch_size=2)
 
 batch = next(iter(train_dataloader))
 input_ids = batch[0][0]
