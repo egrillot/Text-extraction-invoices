@@ -103,3 +103,5 @@ results = {
     "recall": recall_score(out_label_list, preds_list),
     "f1": f1_score(out_label_list, preds_list),
 }
+
+print(results)
