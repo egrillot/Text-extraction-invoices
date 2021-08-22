@@ -2,9 +2,13 @@ import pdf2image
 import argparse
 import os
 import json
-import easyocr
+import pytesseract
 from PIL import Image
 from layoutlm_preprocess import *
+
+from time import time
+
+pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--file_path',type=str,dest='fp')
@@ -16,6 +20,9 @@ class Tools:
 
     def label_map(labels):
         return {i: label for i, label in enumerate(labels)}
+
+    eng_month={'January':'01','February':'02','March':'03','April':'04','May':'05','June':'06','July':'07','August':'08','September':'09','October':'10','November':'11','December':'12'}
+    pol_month={'Styczeń':'01','Luty':'02','Marzec':'03','Kwiecień':'04','Maj':'05','Czerwiec':'06','Lipiec':'07','Sierpień':'08','Wrzesień':'09','Październik':'10','Listopad':'11','Grudzień':'12'}
 
     def write_all_json(d,path):
         jfile=json.dumps(d)
@@ -35,7 +42,7 @@ class Tools:
             im_list=[]
             im_path_list=[]
             for im in ims:
-                im=im.resize((767,1169))
+                im=im.resize((826,1169))
                 im_list.append(im)
                 im_path=im_path[:-4]+str(number_page)+'.jpg'
                 im.save(im_path)
@@ -45,19 +52,12 @@ class Tools:
 
 class Model:
 
-    def __init__(self, name, model_path=None, num_labels=None):
-        self.name=name
-        if name=='LayoutLM':
-            self.model=model_load(model_path,num_labels)
-        if name=='text detection':
-            self.model=easyocr.Reader(['pl'])
+    def __init__(self, model_path, num_labels):
+        self.model=model_load(model_path,num_labels)
     
-    def pred(self, image_to_read=None, image=None, words=None, boxes=None, actual_boxes=None):
-        if self.name=='LayoutLM':
-            word_level_predictions, predicted_boxes=convert_to_features(image, words, boxes, actual_boxes, self.model)
-            return word_level_predictions, predicted_boxes
-        if self.name=='text detection':
-            return self.model.readtext(image_to_read,min_size=1,low_text=0.3,link_threshold=0.1,text_threshold=0.1)
+    def pred(self, image, words, boxes, actual_boxes):
+        word_level_predictions, predicted_boxes=convert_to_features(image, words, boxes, actual_boxes, self.model)
+        return word_level_predictions, predicted_boxes
 
 class Box:
     def __init__(self,x_min,y_min,x_max,y_max,text=None):
@@ -120,28 +120,22 @@ class Image:
         self.actual_boxes_list=[]
         self.labels=labels
         self.boxes_detected_list=[Boxes() for i in range(self.number_page)]
-    
-    def set_boxes(self):
-        model=Model('text detection')
-        for i in range(self.number_page):
-            results=model.pred(self.im_path_list[i])
-            for (bbox, text, _) in results:
-                (top_left, _, bottom_right, _) = bbox
-                box=Box(int(top_left[0]), int(top_left[1]), int(bottom_right[0]), int(bottom_right[1]), text)
-                self.boxes_detected_list[i].add_box(box)
 
     def set_texts(self):
-        for path in self.im_path_list:
-            image, words, boxes, actual_boxes = preprocess(path)
+        for i in range(self.number_page):
+            image, words, boxes, actual_boxes = preprocess(self.im_path_list[i])
             self.image_list.append(image)
             self.words_list.append(words)
             self.boxes_list.append(boxes)
             self.actual_boxes_list.append(actual_boxes)
+            for j in range(len(words)):
+                box=Box(actual_boxes[j][0], actual_boxes[j][1], actual_boxes[j][2], actual_boxes[j][3], words[j])
+                self.boxes_detected_list[i].add_box(box)
     
     def get_target_texts(self, model_path, path):
         d={}
         label_map=Tools.label_map(self.labels)
-        model=Model('LayoutLM', model_path, len(self.labels))
+        model=Model(model_path, len(self.labels))
         for i in range(self.number_page):
             prediction_labels, prediction_boxes=model.pred(image=self.image_list[i], words=self.words_list[i], boxes=self.boxes_list[i],
                                                                          actual_boxes=self.actual_boxes_list[i])
@@ -158,7 +152,6 @@ class Image:
         Tools.write_all_json(d, path)  
 
     def text_extraction(self, model_path, result_path):
-        self.set_boxes()
         self.set_texts()  
         self.get_target_texts(model_path, result_path)    
 
