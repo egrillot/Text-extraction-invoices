@@ -14,7 +14,7 @@ from layoutlm_preprocess import *
 
 from pydantic import BaseModel, Json
 
-mp='C:/Users/emili/Desktop/VivaDrive/models/trained_layoutlm.pt'
+mp='path/to/your/trained/LayoutLM/model'
 
 class Prediction(BaseModel):
     """
