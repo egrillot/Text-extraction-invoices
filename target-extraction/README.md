@@ -64,18 +64,12 @@ Please note that the input must necessarily be a pdf file. However, the input ca
     <tr>
         <td>Output</td>
         
-<td>
-~~~
-{
-"S-SELLE_ID": ["GIESTER", "OLCAGIX", "fibGPKHOAGY", "espfZE", "IqZ6z", "WQINGZVpZ", "6205", "Oin\u00a5Ujge", "NiP:", "35454524487", "Lo"],
-    "S-BUYER_ID": ["3.", "DbFZGZLYN", "fQXW", "CZ", "5150", "15", "eNDacaSqFC", "eesMZASLC", "81499", "26KOXMAL", "OXC)]"], 
-    "S-QUANTITY_ID": ["24 stz"], 
-    "S-PRICENETTO_ID": ["405,32", "848,196", "518,8"], 
-    "S-INVOICE_ID": ["Faktura", "VAT", "Q/35/84/5726"], 
-    "S-DATE_ID": ["Data", "wystawienia:", "65.71.420", "sprzedazy:", "88.02.742"]
-    }
-~~~
-        </td>
+<td>"S-SELLE_ID": ["GIESTER", "OLCAGIX", "fibGPKHOAGY", "espfZE", "IqZ6z", "WQINGZVpZ", "6205", "Oin\u00a5Ujge", "NiP:", "35454524487", "Lo"], </td>
+<td>"S-BUYER_ID": ["3.", "DbFZGZLYN", "fQXW", "CZ", "5150", "15", "eNDacaSqFC", "eesMZASLC", "81499", "26KOXMAL", "OXC)]"], </td>
+<td>"S-QUANTITY_ID": ["24 stz"], </td>
+<td>"S-PRICENETTO_ID": ["405,32", "848,196", "518,8"], </td>
+<td>"S-INVOICE_ID": ["Faktura", "VAT", "Q/35/84/5726"], </td>
+<td>"S-DATE_ID": ["Data", "wystawienia:", "65.71.420", "sprzedazy:", "88.02.742"] </td>
     </tr>
   </table>
 
