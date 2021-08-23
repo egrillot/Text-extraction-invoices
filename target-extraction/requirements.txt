@@ -2,4 +2,4 @@ pdf2image
 json
 easyocr
 pytesseract
-
+Pillow
