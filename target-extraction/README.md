@@ -40,7 +40,7 @@ Once done, you can use your model to extract your wished features. You can also 
 
 ### Installation
 
-First you will need to put the file **layoutlm_preprocess.py** in your downlaod packages : ~~~ Python\Python38\Lib\site-packages ~~~ . Then let's install with the command below :
+First you will need to put the file **layoutlm_preprocess.py** in your downlaod packages : `` Python\Python38\Lib\site-packages `` . Then let's install with the command below :
 
 ~~~
 !python3 -m pip install --ignore-installed -r requirements.txt 
@@ -79,4 +79,4 @@ In the directory **demo web**, a code using **fastapi** is available. You just n
 uvicorn main:app
 ~~~
 
-Pease specify in the file ~~~ main.py ~~~ the path to the localisation of your trained LayoutLM model in the variable ~~~ mp ~~~ .
+Pease specify in the file `` main.py `` the path to the localisation of your trained LayoutLM model in the variable `` mp `` .
