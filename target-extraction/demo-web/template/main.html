@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Extraction of wished text demo</title>
+</head>
+<body>
+
+	<div class="container">		
+	
+			<input class="btn" type="file" id="pdf-file"/>
+    	<button class="btn" id='send' onclick="sendPDF()">Submit PDF</button>
+    
+	</div>
+		
+	<p id='filename'></p>
+	<div class="container" id='results-container'>
+		
+	</div>
+	
+
+			
+</body>
+</html>
+
+<style type="text/css">
+
+.container{
+	display: flex;
+	justify-content: center;
+	margin-top: 1.5rem;
+	margin-bottom: 1.5rem;
+	padding: 0.5rem;
+}
+
+
+
+.item{
+	border-radius: 50px;
+	background: #ffffff;
+	box-shadow:  20px 20px 60px #d9d9d9,
+             -20px -20px 60px #ffffff;
+    margin: 2rem;
+    padding: 2rem;
+}
+
+.btn {
+	border-radius: 20px;
+	border-color: white;
+	background: #005bbb;
+	color: white;
+	box-shadow:  20px 20px 60px #d9d9d9,
+             -20px -20px 60px #ffffff;
+    margin: 2rem;
+    padding: 1rem;
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+
+}
+
+.lds-dual-ring {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+}
+.lds-dual-ring:after {
+  content: " ";
+  display: block;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 6px solid #fcf;
+  border-color: #005bbb transparent #005bbb transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+th {
+	background-color: #005bbb;
+	color: white;
+}
+
+</style>
+
+<script type="text/javascript">
+
+	function sendPDF() {
+
+    document.getElementById('results-container').innerHTML = `<div class="lds-dual-ring"></div>`
+    let pdf = document.getElementById("pdf-file").files[0];
+    let formData = new FormData();
+
+    formData.append("file", pdf);
+
+    fetch('/upload_pdf/', {
+        method: "POST",
+        body: formData
+    }).then(function(response) {
+
+        if (response.ok) {
+            response.json().then(function(myJSON) {
+            		console.log(myJSON)
+            		document.getElementById('results-container').innerHTML = `
+            		<div class="item" id="pdf-viz"></div>
+		            <div class="item" id="table-results"></div>`
+                document.getElementById('table-results').innerHTML = formatOutput(myJSON['result'])
+                document.getElementById('pdf-viz').innerHTML = `
+                <embed src="static/${myJSON['filename']}#view=FitH" width="800" height="600" type="application/pdf">`
+
+                document.getElementById('filename').innerHTML = myJSON['filename']
+
+            })
+
+        } else {
+            response.json().then(function(myJSON) {
+                document.getElementById('results-container').innerHTML = "<p><b> Error "+ myJSON['detail'] + "</b></p>"
+            })
+
+        }
+
+    })
+
+}
+
+function formatOutput(jsonData){
+  var txt =`<p id='results'>
+  <table style="width:100%">
+    <tr>
+      <th>KEY</th>
+      <th>VALUE</th>
+      
+    </tr>
+    <tr>`
+  Object.keys(jsonData).forEach(function(key) {
+    txt+=` <td>${key}</td> <td>${jsonData[key]}</td></tr>`
+})
+
+let HTMLstring = txt+`</table></p>`
+return(HTMLstring)
+}
+</script>
