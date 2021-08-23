@@ -56,10 +56,15 @@ Now the extraction of the wished text is a very simple task. Let's use the comma
 
 Please note that the input must necessarily be a pdf file. However, the input can contain several page. Let's test our OCR+NLP AI on the invoice generated below :
 
-<td><img src="test/invoice.jpg" width=450 heigth=660></td>
-
-And below, you can see the output json file of our model :
-
+<table>
+    <tr>
+        <td>Input</td>
+        <td><img src="test/invoice.jpg" width=450 heigth=660></td>
+    </tr>
+    <tr>
+        <td>Output</td>
+        
+<td>
 ~~~
 {
 "S-SELLE_ID": ["GIESTER", "OLCAGIX", "fibGPKHOAGY", "espfZE", "IqZ6z", "WQINGZVpZ", "6205", "Oin\u00a5Ujge", "NiP:", "35454524487", "Lo"],
@@ -70,6 +75,9 @@ And below, you can see the output json file of our model :
     "S-DATE_ID": ["Data", "wystawienia:", "65.71.420", "sprzedazy:", "88.02.742"]
     }
 ~~~
+        </td>
+    </tr>
+  </table>
 
 ### Web application
 
