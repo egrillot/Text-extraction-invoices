@@ -56,7 +56,7 @@ Now the extraction of the wished text is a very simple task. Let's use the comma
 
 Please note that the input must necessarily be a pdf file. However, the input can contain several page. Let's test our OCR+NLP AI on the invoice generated below :
 
-<img src="test/invoice.jpg" width=450 heigth=660>
+<img src="test/invoice.jpg" width=225 heigth=330>
 
 We get the following results in json output :
 
