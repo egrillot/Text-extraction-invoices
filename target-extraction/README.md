@@ -46,16 +46,10 @@ First you will need to put the file **layoutlm_preprocess.py** in your downlaod 
 !python3 -m pip install --ignore-installed -r requirements.txt 
 ~~~
 
-### Usage & Example
+### Usage 
 
 Now the extraction of the wished text is a very simple task. Let's use the command line as follows :
 
 ~~~
 !python3 eval.py --file_path=path/to/your/invoice --dir_result=path/to/the/repository/to/save/results --models_path=path/to/your/trained/LayoutLM/model
 ~~~
-
-Please note that the code is only working with pdf files. However your pdf can contain several page. Let's test it on the following invoice :
-
-
-
-We obtain :
