@@ -1,6 +1,6 @@
 # Target extraction
 
-In this package, it is possible to train your own extraction features model with the same structure as the [LayoutLM](https://huggingface.co/microsoft/layoutlm-base-uncased) model. Disposing of invoice templates, you can generate your dataset with the following [repository](https://github.com/h2o64/faktur_generator). You can also use the code **target_text_extraction.py** to extract with your trained model the text from an invoice. The result is saved as a json file in the specified directory. In my case, the LayoutLM model has been pre-trained on a polish invoices dataset, using the repository quoted, based on 20 templates with 1 000 generated invoices per template (of course you can train your model on a smaller dataset). For more details, please refer to the following [tutorial](https://towardsdatascience.com/fine-tuning-transformer-model-for-invoice-recognition-1e55869336d4).
+The aim here is to use a OCR+NLP model to extract the wished text from an invoice. In this package, it is possible to train your own extraction features model with the same structure as the [LayoutLM](https://huggingface.co/microsoft/layoutlm-base-uncased) model. Disposing of invoice templates, you can generate your dataset with the following [repository](https://github.com/h2o64/faktur_generator). You can also use the code **target_text_extraction.py** to extract with your trained model the text from an invoice. The result is saved as a json file in the specified directory. In my case, the LayoutLM model has been pre-trained on a polish invoices dataset, using the repository quoted, based on 20 templates with 1 000 generated invoices per template (of course you can train your model on a smaller dataset). For more details, please refer to the following [tutorial](https://towardsdatascience.com/fine-tuning-transformer-model-for-invoice-recognition-1e55869336d4).
 
 ## Train your LayoutLM model
 
@@ -46,10 +46,25 @@ First you will need to put the file **layoutlm_preprocess.py** in your downlaod 
 !python3 -m pip install --ignore-installed -r requirements.txt 
 ~~~
 
-### Usage 
+### Usage & Example
 
 Now the extraction of the wished text is a very simple task. Let's use the command line as follows :
 
 ~~~
 !python3 eval.py --file_path=path/to/your/invoice --dir_result=path/to/the/repository/to/save/results --models_path=path/to/your/trained/LayoutLM/model
+~~~
+
+Please note that the input must necessarily be a pdf file. However, the input can contain several page. Let's test our OCR+NLP AI on the invoice generated below :
+
+<td><img src="test/invoice.jpg"></td>
+
+And below, you can see the output json file of our model :
+
+~~~
+{"S-SELLE_ID": ["GIESTER", "OLCAGIX", "fibGPKHOAGY", "espfZE", "IqZ6z", "WQINGZVpZ", "6205", "Oin\u00a5Ujge", "NiP:", "35454524487", "Lo"],
+    "S-BUYER_ID": ["3.", "DbFZGZLYN", "fQXW", "CZ", "5150", "15", "eNDacaSqFC", "eesMZASLC", "81499", "26KOXMAL", "OXC)]"], 
+    "S-QUANTITY_ID": ["24 stz"], 
+    "S-PRICENETTO_ID": ["405,32", "848,196", "518,8"], 
+    "S-INVOICE_ID": ["Faktura", "VAT", "Q/35/84/5726"], 
+    "S-DATE_ID": ["Data", "wystawienia:", "65.71.420", "sprzedazy:", "88.02.742"]}
 ~~~
