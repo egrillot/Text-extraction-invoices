@@ -73,7 +73,7 @@ And below, you can see the output json file of our model :
 
 ### Web application
 
-In the directory **demo web**, a code using **fastapi** is available. You just need to go on this directory and execute the following command :
+In the directory **demo web**, a code using **fastapi** is available. You just need to go in this directory and execute the following command :
 
 ~~~
 uvicorn main:app
