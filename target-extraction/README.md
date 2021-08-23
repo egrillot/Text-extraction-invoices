@@ -70,3 +70,13 @@ And below, you can see the output json file of our model :
     "S-DATE_ID": ["Data", "wystawienia:", "65.71.420", "sprzedazy:", "88.02.742"]
     }
 ~~~
+
+### Web application
+
+In the directory **demo web**, a code using **fastapi** is available. You just need to go on this directory and execute the following command :
+
+~~~
+uvicorn main:app
+~~~
+
+Pease specify in the file ~~~ main.py ~~~ the path to the localisation of your trained LayoutLM model in the variable ~~~ mp ~~~ .
