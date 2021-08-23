@@ -79,4 +79,4 @@ In the directory **demo web**, a code using **fastapi** is available. You just n
 uvicorn main:app
 ~~~
 
-Pease specify in the file `` main.py `` the path to the localisation of your trained LayoutLM model in the variable `` mp `` .
+Pease specify in the file `` main.py `` the path to the localisation of your trained LayoutLM model in the variable `` mp `` . 
