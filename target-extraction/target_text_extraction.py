@@ -19,9 +19,17 @@ args = parser.parse_args()
 class Tools:
 
     def label_map(labels):
+        # input : list of string 
+        # output : dictionnary 
+        # attribute an integer for each labels
+        
         return {i: label for i, label in enumerate(labels)}
     
     def write_all_json(d,path):
+        # input : dictionary
+        # output : json file
+        # write the results of the LayoutLM model into a json file
+        
         jfile=json.dumps(d)
         if len(path)!=0:
             jsonFile = open(path+'result.json', "w")
@@ -30,6 +38,9 @@ class Tools:
         return jfile
 
     def work_with_image(current_path):
+        # intput : pdf file path
+        # output : list of PIL.Image object, list of path for each images
+        # convert each pages from the pdf file into images resized in 1169*826 
         im_path=current_path
         if im_path[-3:]!='pdf':
             print('Please enter a pdf file')
@@ -48,11 +59,16 @@ class Tools:
         return im_list, im_path_list  
 
 class Model:
+    
+    #class used to call the LayoutLM model trained to extract the wished text from the extracted text
 
     def __init__(self, model_path, num_labels):
         self.model=model_load(model_path,num_labels)
     
     def pred(self, image, words, boxes, actual_boxes):
+        # output : list of labels, list of box coordinates
+        # the LayoutLM model will find new boxes within the text is labelized by something else than 'O'
+        
         word_level_predictions, predicted_boxes=convert_to_features(image, words, boxes, actual_boxes, self.model)
         return word_level_predictions, predicted_boxes
 
@@ -68,28 +84,41 @@ class Box:
         return np.array([self.x_min, self.y_min, self.x_max, self.y_max])
     
     def equal(self,box):
+        # output : bool
+        # check if a self and box get the same coordinates
+        
         return self.x_min==box.x_min and self.x_max==box.x_max and self.y_min==box.y_min and self.y_max==box.y_max
 
     def distance2(self,box):
+        # output : float
+        # compute the distance between both top-left points and both bottom-right points and add them
+        
         return np.sum((self.get_coordinates()-box.get_coordinates())**2)
 
 class Boxes:
     def __init__(self):
-        self.boxes_list=[]
+        self.boxes_list=[] #list of box
         self.size=0
     
     def is_already_in(self,box):
+        # output : boolean
+        # check if box is already in the boxes cluster
         for bbox in self.boxes_list:
             if bbox.equal(box):
                 return True
         return False
     
     def add_box(self,box):
+        # add a box in the cluster
+        
         if not self.is_already_in(box):
             self.boxes_list.append(box)
             self.size+=1
     
     def is_the_closest(self,box):
+        # output : box
+        # search the closest box of the input among the boxes cluster in the sens of the distance2
+        
         ref=np.infty
         for i in range(self.size):
             d=box.distance2(self.boxes_list[i])
@@ -116,9 +145,11 @@ class Image:
         self.boxes_list=[]
         self.actual_boxes_list=[]
         self.labels=labels
-        self.boxes_detected_list=[Boxes() for i in range(self.number_page)]
+        self.boxes_detected_list=[Boxes() for i in range(self.number_page)] #list of boxes cluster (for each pages)
 
     def set_texts(self):
+        # fill all boxes clusters with the detected text and its box coordinates
+        
         for i in range(self.number_page):
             image, words, boxes, actual_boxes = preprocess(self.im_path_list[i])
             self.image_list.append(image)
@@ -130,6 +161,9 @@ class Image:
                 self.boxes_detected_list[i].add_box(box)
     
     def get_target_texts(self, model_path, path):
+        # select among the boxes clusters the wished text wit hthe layoutLM model 
+        # build a dictionnary with labels as keys and extracted text corresponding to a label as values
+        
         d={}
         label_map=Tools.label_map(self.labels)
         model=Model(model_path, len(self.labels))
@@ -146,7 +180,7 @@ class Image:
                     else:
                         if corresponding_box.text not in d[predicted_label]:
                             d[predicted_label].append(corresponding_box.text)
-        Tools.write_all_json(d, path)  
+        return Tools.write_all_json(d, path)  
 
     def text_extraction(self, model_path, result_path):
         self.set_texts()  
