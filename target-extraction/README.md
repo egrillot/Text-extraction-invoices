@@ -51,7 +51,7 @@ First you will need to put the file **layoutlm_preprocess.py** in your downlaod 
 Now the extraction of the wished text is a very simple task. Let's use the command line as follows :
 
 ~~~
-!python3 eval.py --file_path=path/to/your/invoice --dir_result=path/to/the/repository/to/save/results --models_path=path/to/your/trained/LayoutLM/model
+!python3 target_text_extraction.py --file_path=path/to/your/invoice --dir_result=path/to/the/repository/to/save/results --models_path=path/to/your/trained/LayoutLM/model
 ~~~
 
 Please note that the input must necessarily be a pdf file. However, the input can contain several page. Let's test our OCR+NLP AI on the invoice generated below :
